@@ -21,6 +21,20 @@ resource "aws_instance" "DBserver" {
   tags = {
     Name = var.db_name 
   }
+# need to figure out where to get private key from
+ connection {
+    type        = "ssh"
+    user        = "ec2-user"
+    private_key = "${file("filename.pem")}"
+    host        = "${self.public_ip}"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get install ansible -y",
+      "sudo yum install git -y",
+    ]
+  }
 }
 
 
