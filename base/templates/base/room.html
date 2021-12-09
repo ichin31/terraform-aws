@@ -1,0 +1,34 @@
+{% extends 'main.html'%}
+
+{% block content %}
+
+<h1>{{room.name}}</h1>
+<p>{{room.desc}}</p>
+
+<div class="comment-wrapper">
+    <h3>conversation</h3>
+    <hr>
+
+
+    {% for x in roomMessages %}
+
+    <div>
+        <!-- todo need to fix timesince flag make it just months or minutes -->
+        <small>@{{x.user}}   {{x.created|timesince}} ago</small>
+        <p>{{x.body}}</p>
+        <hr>
+    </div>
+    {% endfor %}
+</div>
+
+{%if request.user.is_authenticated %}
+<div class="comment-form">
+    <form method="post" action="">
+    {% csrf_token %}
+    <input type="text" name="room_body" placeholder="Write your message here ..."/>
+    </form>
+</div>
+
+{% endif %}
+
+{% endblock %}
